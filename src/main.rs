@@ -26,6 +26,8 @@ fn main() {
         println!("You win!")
     } else if user_int == 3 as u8 && computer_int == 2 as u8 {
         println!("You win!")
+    } else if user_int > 3 as u8 || user_int <= 0 {
+        println!("Enter 1, 2 or 3")
     } else {
         println!("You lose!")
     }
