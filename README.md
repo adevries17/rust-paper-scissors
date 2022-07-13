@@ -1,5 +1,5 @@
 # rust-rps
-Rust Rock Paper Scissors
+A command line rock paper scissors program
 
 To use, run this from the command line otherwise you will not see the output
 
