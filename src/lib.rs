@@ -1,17 +1,28 @@
-pub fn calc_winner(c_input: u8, u_input: u8) {
-    // compare and decide the winner
-    // rock = 1, paper = 2, scissors = 3
-    if c_input == u_input {
-        println!("Draw!")
-    } else if u_input == 1 as u8 && c_input == 3 as u8 {
-        println!("You win!")
-    } else if u_input == 2 as u8 && c_input == 1 as u8 {
-        println!("You win!")
-    } else if u_input == 3 as u8 && c_input == 2 as u8 {
-        println!("You win!")
-    } else if u_input > 3 as u8 || u_input <= 0 {
-        println!("Enter 1, 2 or 3")
-    } else {
-        println!("You lose!")
+use rand::Rng;
+
+
+#[derive(Debug,PartialEq)]
+pub enum Choice {
+    Rock,
+    Paper,
+    Scissors,
+}
+impl Choice {
+    pub fn computer_choice() -> Choice {
+        let computer_int = rand::thread_rng().gen_range(1..3);
+        match &computer_int {
+            1 => Choice::Rock,
+            2 => Choice::Paper,
+            3 => Choice::Scissors,
+            _ => panic!()
+        }
+    }
+    pub fn user_choice(u_choice: String) -> Choice {
+        match &*u_choice {
+            "rock" => Choice::Rock,
+            "paper" => Choice::Paper,
+            "scissors" => Choice::Scissors,
+            _ => panic!()
+        }
     }
 }
