@@ -15,6 +15,6 @@ fn main() {
     let c_choice = Choice::computer_choice();
     let u_choice = Choice::user_choice(user_string);
 
-    println!("{:?}", c_choice);
-    println!("{:?}", u_choice);
+    println!("Computer choice: {:?}", c_choice);
+    println!("User choice: {:?}", u_choice);
 }

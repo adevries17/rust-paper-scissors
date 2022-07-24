@@ -9,6 +9,7 @@ pub enum Choice {
 }
 
 impl Choice {
+    // function to get computer's choice
     pub fn computer_choice() -> Choice {
         let computer_int = rand::thread_rng().gen_range(1..3);
         match &computer_int {
