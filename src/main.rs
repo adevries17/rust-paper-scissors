@@ -1,33 +1,20 @@
 use std::io;
-use rand::Rng;
+use rust_rps::Choice;
+
 
 fn main() {
     // initial instructions
     println!("Welcome to Rust rock paper scissors!");
     println!("Input your choice of rock, paper, or scissors:");
-    println!("1: rock, 2: paper, 3: scissors");
-    // get user choice
-    let mut user_choice: String = String::new();
+    println!("rock, paper, scissors");
+    // get user input
+    let mut user_input = String::new();
+    io::stdin().read_line(&mut user_input).expect("Failed to read input");
+    let user_string: String = user_input.trim().parse().unwrap();
 
-    io::stdin()
-        .read_line(&mut user_choice).expect("Failed to read input");
-    let user_int: u8 = user_choice.trim().parse().unwrap();
-    
-    // get random rock paper scissors
-    let computer_int: u8 = rand::thread_rng().gen_range(1..3);
+    let c_choice = Choice::computer_choice();
+    let u_choice = Choice::user_choice(user_string);
 
-    // compare and decide the winner
-    // rock = 1, paper = 2, scissors = 3
-    if computer_int == user_int {
-        println!("Draw!")
-    } else if user_int == 1 as u8 && computer_int == 3 as u8 {
-        println!("You win!")
-    } else if user_int == 2 as u8 && computer_int == 1 as u8 {
-        println!("You win!")
-    } else if user_int == 3 as u8 && computer_int == 2 as u8 {
-        println!("You win!")
-    } else {
-        println!("You lose!")
-    }
-
+    println!("Computer choice: {:?}", c_choice);
+    println!("User choice: {:?}", u_choice);
 }
