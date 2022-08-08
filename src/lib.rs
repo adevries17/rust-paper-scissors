@@ -14,13 +14,11 @@ pub fn get_player_input() -> u8 {
         let input_integer: u8 = input
             .trim()
             .parse()
-            .expect("Failed to convert to integer");
+            .unwrap_or_default();
 
         // check if valid value
         match input_integer {
-            1 => return 1,
-            2 => return 2,
-            3 => return 3,
+            1|2|3 => break input_integer,
             _ => continue,
         }
     }
