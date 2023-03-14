@@ -1,43 +1,55 @@
-use std::io;
-
-
-pub fn get_player_input() -> u8 {
+use rand::{
+    distributions::{Distribution, Standard},
+    Rng,
+};
+#[derive(Debug)]
+pub enum Guess {
+    Rock,
+    Paper,
+    Scissors,
+}
+impl Distribution<Guess> for Standard {
+    fn sample<R: Rng + ?Sized>(&self, rng: &mut R) -> Guess {
+        match rng.gen_range(0..=2) {
+            0 => Guess::Rock,
+            1 => Guess::Paper,
+            _ => Guess::Scissors,
+        }
+    }
+}
+pub fn get_player_guess() -> Guess {
     loop {
-        // initial instructions to player
-        println!("Input your guess of rock: 1, paper: 2 or scissors: 3");
-
-        // obtain player input
+        println!("Input your guess of rock, paper or scissors");
+        // reserve memory for the string that will be entered
+        // by the player, store in the buffer, parse save as string slice
         let mut input = String::new();
-        io::stdin()
+        std::io::stdin()
             .read_line(&mut input)
             .expect("Failed to read line");
-        let input_integer: u8 = input
-            .trim()
-            .parse()
-            .unwrap_or_default();
+        let input: String = input.trim().parse().expect("Failed to parse input");
+        let input = input.as_str();
 
-        // check if valid value
-        match input_integer {
-            1|2|3 => break input_integer,
-            _ => continue,
+        match input {
+            "rock" | "r" => return Guess::Rock,
+            "paper" | "p" => return Guess::Paper,
+            "scissors" | "s" => return Guess::Scissors,
+            _ => println!("Not a valid guess! Guess again!"),
         }
     }
 }
 
-pub fn determine_winner(p: &u8, c: &u8) {
-    match (p,c) {
-        (1,1) => println!("Tie!"), // player rock, computer rock
-        (1,2) => println!("You lose!"), // player rock, computer paper
-        (1,3) => println!("You win!"), // player rock, computer scissors
+pub fn determine_winner(p: &Guess, c: &Guess) {
+    match (p, c) {
+        (Guess::Rock, Guess::Rock) => println!("Tie!"), // player rock, computer rock
+        (Guess::Rock, Guess::Paper) => println!("You lose!"), // player rock, computer paper
+        (Guess::Rock, Guess::Scissors) => println!("You win!"), // player rock, computer scissors
 
-        (2,1) => println!("You win!"), // player paper, computer rock
-        (2,2) => println!("Tie!"), // player paper, computer paper
-        (2,3) => println!("You lose!"), //player paper, computer scissors
+        (Guess::Paper, Guess::Rock) => println!("You win!"), // player paper, computer rock
+        (Guess::Paper, Guess::Paper) => println!("Tie!"),    // player paper, computer paper
+        (Guess::Paper, Guess::Scissors) => println!("You lose!"), //player paper, computer scissors
 
-        (3,1) => println!("You lose!"), // player scissors, computer rock
-        (3,2) => println!("You win!"), // player scissors, computer paper
-        (3,3) => println!("Tie!"), // player scissors, computer scissors
-
-        _ => panic!("Unable to determine winner")
+        (Guess::Scissors, Guess::Rock) => println!("You lose!"), // player scissors, computer rock
+        (Guess::Scissors, Guess::Paper) => println!("You win!"), // player scissors, computer paper
+        (Guess::Scissors, Guess::Scissors) => println!("Tie!"), // player scissors, computer scissors
     }
 }
