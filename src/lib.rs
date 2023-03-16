@@ -2,12 +2,14 @@ use rand::{
     distributions::{Distribution, Standard},
     Rng,
 };
+
 #[derive(Debug)]
 pub enum Guess {
     Rock,
     Paper,
     Scissors,
 }
+
 impl Distribution<Guess> for Standard {
     fn sample<R: Rng + ?Sized>(&self, rng: &mut R) -> Guess {
         match rng.gen_range(0..=2) {
@@ -17,6 +19,7 @@ impl Distribution<Guess> for Standard {
         }
     }
 }
+
 pub fn get_player_guess() -> Guess {
     loop {
         println!("Input your guess of rock, paper or scissors");
@@ -52,4 +55,15 @@ pub fn determine_winner(p: &Guess, c: &Guess) {
         (Guess::Scissors, Guess::Paper) => println!("You win!"), // player scissors, computer paper
         (Guess::Scissors, Guess::Scissors) => println!("Tie!"), // player scissors, computer scissors
     }
+}
+
+pub fn get_player_rounds() -> usize {
+    let mut input = String::new();
+    std::io::stdin()
+        .read_line(&mut input)
+        .expect("Failed to read lines");
+
+    let input = input.trim().parse().expect("Failed to parse input");
+
+    input
 }
